@@ -1,27 +1,26 @@
 # Template file for 'tigervnc'
 pkgname=tigervnc
-version=1.8.0
-revision=4
-_xorg_version=1.19.6
+version=1.9.0
+revision=1
+_xorg_version=1.20.1
 build_style=cmake
 short_desc="VNC client forked from TightVNC"
 maintainer="Evan Deaubl <evan@deaubl.name>"
 license="GPL-2"
 hostmakedepends="automake xorg-util-macros font-util pkg-config libtool xtrans"
 makedepends="fltk-devel zlib-devel libXtst-devel libjpeg-turbo-devel pixman-devel
- xorgproto libxkbfile-devel libXfont2-devel gnutls-devel"
+ xorgproto libxkbfile-devel libXfont2-devel libXrandr-devel gnutls-devel"
 depends="perl xauth xkeyboard-config"
 conflicts="turbovnc>=0"
 homepage="http://www.tigervnc.org"
 distfiles="https://github.com/TigerVNC/tigervnc/archive/v${version}.tar.gz>tigervnc-${version}.tar.gz
  ${XORG_SITE}/xserver/xorg-server-${_xorg_version}.tar.bz2"
-checksum="9951dab0e10f8de03996ec94bec0d938da9f36d48dca8c954e8bbc95c16338f8
- a732502f1db000cf36a376cd0c010ffdbf32ecdd7f1fa08ba7f5bdf9601cc197"
+checksum="f15ced8500ec56356c3bf271f52e58ed83729118361c7103eab64a618441f740
+ 59c99fe86fe75b8164c6567bfc6e982aecc2e4a51e6fbac1b842d5d00549e918"
 
 post_configure() {
 	cd ${wrksrc}/unix/xserver
 	cp -R ${XBPS_BUILDDIR}/xorg-server-${_xorg_version}/* .
-	patch -p1 <../xserver119.patch
 	autoreconf -fiv
 	./configure --host=${XBPS_CROSS_TRIPLET} --prefix=/usr \
 		--with-pic --without-dtrace --disable-static \
